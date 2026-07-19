@@ -4,261 +4,468 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Ardan | Developer</title>
+<title>Ardan | Developer Profile</title>
 
+<!-- Fonts matched directly with Resonia Design System -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 
 <style>
-
+/* ==========================================
+   RESET & SYSTEM VARIABLES
+   ========================================== */
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body{
-    font-family:'Inter',sans-serif;
-    background:
-        radial-gradient(circle at top left,#2f3545 0%,#111827 35%,#0b0f19 100%);
-    color:white;
-    min-height:100vh;
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #020205;
+    color: #ffffff;
+    min-height: 100vh;
+    overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
-.container{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:24px;
+/* Selection aesthetics */
+::selection {
+    background: rgba(0, 212, 255, 0.15);
+    color: #00D4FF;
 }
 
-.card{
-    width:100%;
-    max-width:1000px;
-
-    background:rgba(255,255,255,.05);
-    backdrop-filter:blur(16px);
-    border:1px solid rgba(255,255,255,.08);
-
-    border-radius:32px;
-
-    display:flex;
-    align-items:center;
-    gap:50px;
-
-    padding:50px;
+/* ==========================================
+   AMBIENT GLOWS (Matching State of Resonia)
+   ========================================== */
+.ambient-container {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
 }
 
-.profile{
-    width:220px;
-    height:220px;
-    border-radius:50%;
-    object-fit:cover;
-
-    border:4px solid rgba(255,255,255,.15);
-
-    flex-shrink:0;
-
-    transition:
-        transform .4s cubic-bezier(.16,1,.3,1),
-        border-color .3s ease,
-        box-shadow .3s ease;
+.glow-orb-primary {
+    position: absolute;
+    top: 20%;
+    left: 15%;
+    width: 380px;
+    height: 380px;
+    border-radius: 50%;
+    background: rgba(0, 212, 255, 0.08);
+    filter: blur(120px);
+    animation: pulse-glow 10s ease-in-out infinite alternate;
 }
 
-.profile:hover{
-    transform:scale(1.05);
-    border-color:rgba(96,165,251,.6);
-    box-shadow:0 0 25px rgba(96,165,251,.2);
+.glow-orb-secondary {
+    position: absolute;
+    bottom: 15%;
+    right: 15%;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: rgba(59, 130, 246, 0.05);
+    filter: blur(100px);
+    animation: pulse-glow 14s ease-in-out infinite alternate-reverse;
 }
 
-.content{
-    flex:1;
+@keyframes pulse-glow {
+    0% { transform: scale(1) translateY(0); opacity: 0.8; }
+    100% { transform: scale(1.15) translateY(-20px); opacity: 1; }
 }
 
-.name{
-    font-size:clamp(2.2rem,4vw,3.5rem);
-    font-weight:700;
-    margin-bottom:10px;
-    line-height:1.1;
+/* ==========================================
+   MAIN CONTAINER & CARD CARD
+   ========================================== */
+.container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 24px;
+    position: relative;
+    z-index: 10;
 }
 
-.tagline{
-    color:#9ca3af;
-    font-size:1.1rem;
-    margin-bottom:28px;
+.card {
+    width: 100%;
+    max-width: 960px;
+    background: rgba(12, 12, 24, 0.85);
+    border: 1px solid rgba(0, 212, 255, 0.15);
+    border-radius: 12px;
+    padding: 64px;
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.5),
+        inset 0 0 30px rgba(0, 212, 255, 0.03);
+    position: relative;
+    overflow: hidden;
 }
 
-.description{
-    color:#d1d5db;
-    line-height:1.9;
-    margin-bottom:28px;
-    font-size:1rem;
+/* Subtlest top glow strip on card hover */
+.card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.4), transparent);
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
 }
 
-.highlight{
-    color:#60a5fa;
-    font-weight:600;
+.card:hover::after {
+    opacity: 1;
 }
 
-.skills{
-    display:flex;
-    flex-wrap:wrap;
-    gap:12px;
+/* ==========================================
+   PROFILE PICTURE (Attunement ring)
+   ========================================== */
+.profile-wrapper {
+    position: relative;
+    flex-shrink: 0;
+    width: 240px;
+    height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.skill{
-    background:rgba(255,255,255,.08);
-    border:1px solid rgba(255,255,255,.08);
-
-    padding:10px 16px;
-    border-radius:999px;
-
-    color:#dbeafe;
-    font-size:.9rem;
-
-    cursor:pointer;
-
-    transition:all .25s ease;
+/* Concentric attunement rings */
+.ring-outer {
+    position: absolute;
+    inset: -6px;
+    border: 1px solid rgba(0, 212, 255, 0.15);
+    border-radius: 50%;
+    animation: rotate-clockwise 24s linear infinite;
 }
 
-.skill:hover{
-    background:rgba(96,165,251,.15);
-    border-color:rgba(96,165,251,.4);
-    color:#60a5fa;
-
-    transform:translateY(-2px);
-
-    box-shadow:0 4px 12px rgba(0,0,0,.15);
+.ring-outer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 6px;
+    height: 6px;
+    background: #00D4FF;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00D4FF;
 }
 
-.footer{
-    margin-top:30px;
-    color:#6b7280;
-    font-size:.9rem;
+.ring-inner {
+    position: absolute;
+    inset: -14px;
+    border: 1px dashed rgba(0, 212, 255, 0.08);
+    border-radius: 50%;
+    animation: rotate-counter 30s linear infinite;
 }
 
-/* ==========================
-   TABLET (iPad)
-   ========================== */
+@keyframes rotate-clockwise {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
 
-@media (max-width: 1024px){
+@keyframes rotate-counter {
+    from { transform: rotate(360deg); }
+    to { transform: rotate(0deg); }
+}
 
-    .container{
-        padding:30px;
+.profile {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.12);
+    position: relative;
+    z-index: 5;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    background: #0c0c18;
+}
+
+.profile-wrapper:hover .profile {
+    transform: scale(1.03);
+    border-color: rgba(0, 212, 255, 0.6);
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.25);
+}
+
+/* ==========================================
+   CONTENT LAYOUT
+   ========================================== */
+.content {
+    flex: 1;
+    display: flex;
+    flex-col: column;
+    flex-direction: column;
+}
+
+.name {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2.4rem, 4vw, 3.8rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 1.1;
+    color: #ffffff;
+    margin-bottom: 4px;
+}
+
+.tagline {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: #64748b;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+}
+
+/* ==========================================
+   AETHER STAR DIVIDER
+   ========================================== */
+.aether-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    width: 100%;
+    margin-bottom: 24px;
+    user-select: none;
+    pointer-events: none;
+}
+
+.divider-line {
+    height: 1px;
+    flex: 1;
+}
+
+.divider-line.left {
+    background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.15) 60%, rgba(0, 212, 255, 0.25) 100%);
+}
+
+.divider-line.right {
+    background: linear-gradient(270deg, transparent, rgba(0, 212, 255, 0.15) 60%, rgba(0, 212, 255, 0.25) 100%);
+}
+
+.divider-node {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.divider-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(0, 212, 255, 0.4);
+}
+
+.divider-star {
+    width: 14px;
+    height: 14px;
+    color: #00D4FF;
+    filter: drop-shadow(0 0 6px #00D4FF);
+}
+
+/* ==========================================
+   BIO DESCRIPTION
+   ========================================== */
+.description {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #cbd5e1;
+    margin-bottom: 32px;
+}
+
+.description p {
+    margin-bottom: 12px;
+}
+
+.highlight {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #00D4FF;
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+}
+
+/* ==========================================
+   SKILLS & BADGES (Item matrix style)
+   ========================================== */
+.skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 40px;
+}
+
+.skill {
+    background: rgba(0, 212, 255, 0.03);
+    border: 1px solid rgba(0, 212, 255, 0.12);
+    padding: 8px 18px;
+    border-radius: 4px;
+    color: #94a3b8;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.skill:hover {
+    background: rgba(0, 212, 255, 0.08);
+    border-color: rgba(0, 212, 255, 0.45);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.12);
+}
+
+/* ==========================================
+   FOOTER SECTION
+   ========================================== */
+.footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 24px;
+    color: #475569;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN (TABLETS & PHONES)
+   ========================================== */
+
+/* Tablet & iPad layouts */
+@media (max-width: 1024px) {
+    .card {
+        padding: 48px;
+        gap: 40px;
+        max-width: 800px;
     }
 
-    .card{
-        gap:35px;
-        padding:40px;
-    }
-
-    .profile{
-        width:180px;
-        height:180px;
-    }
-
-    .description{
-        font-size:.97rem;
+    .profile-wrapper {
+        width: 190px;
+        height: 190px;
     }
 }
 
-/* ==========================
-   MOBILE
-   ========================== */
-
-@media (max-width: 768px){
-
-    .container{
-        padding:18px;
+/* Mobile responsive break */
+@media (max-width: 768px) {
+    .container {
+        padding: 16px;
     }
 
-    .card{
-        flex-direction:column;
-        text-align:center;
-
-        gap:24px;
-        padding:32px 24px;
-        border-radius:24px;
+    .card {
+        flex-direction: column;
+        text-align: center;
+        padding: 40px 24px 32px 24px;
+        gap: 32px;
+        border-radius: 8px;
     }
 
-    .profile{
-        width:140px;
-        height:140px;
+    .profile-wrapper {
+        width: 150px;
+        height: 150px;
     }
 
-    .name{
-        font-size:2rem;
+    .ring-outer {
+        inset: -4px;
     }
 
-    .tagline{
-        font-size:.95rem;
-        margin-bottom:20px;
+    .ring-inner {
+        inset: -10px;
     }
 
-    .description{
-        font-size:.95rem;
-        line-height:1.7;
+    .name {
+        font-size: 2.2rem;
     }
 
-    .skills{
-        justify-content:center;
+    .tagline {
+        font-size: 0.75rem;
+        margin-bottom: 20px;
     }
 
-    .skill{
-        padding:8px 14px;
-        font-size:.85rem;
+    .description {
+        font-size: 1.15rem;
+        line-height: 1.7;
     }
 
-    .footer{
-        margin-top:24px;
-    }
-}
-
-/* ==========================
-   SMALL PHONES
-   ========================== */
-
-@media (max-width: 480px){
-
-    .card{
-        padding:24px 18px;
+    .skills {
+        justify-content: center;
+        gap: 8px;
     }
 
-    .profile{
-        width:120px;
-        height:120px;
-    }
-
-    .name{
-        font-size:1.75rem;
-    }
-
-    .description{
-        font-size:.9rem;
-    }
-
-    .skills{
-        gap:8px;
-    }
-
-    .skill{
-        width:100%;
-        text-align:center;
+    .skill {
+        padding: 6px 14px;
+        font-size: 0.7rem;
     }
 }
 
+/* Extra small mobile displays */
+@media (max-width: 480px) {
+    .card {
+        padding: 32px 16px 24px 16px;
+    }
+
+    .profile-wrapper {
+        width: 130px;
+        height: 130px;
+    }
+
+    .name {
+        font-size: 1.85rem;
+    }
+
+    .skills {
+        display: grid;
+        grid-template-cols: 1fr;
+        width: 100%;
+        gap: 6px;
+    }
+
+    .skill {
+        text-align: center;
+        width: 100%;
+    }
+}
 </style>
 </head>
 
 <body>
 
+<!-- Ambient Glowing Orbs -->
+<div class="ambient-container">
+    <div class="glow-orb-primary"></div>
+    <div class="glow-orb-secondary"></div>
+</div>
+
 <div class="container">
 
     <div class="card">
 
-        <img src="profile.png" alt="Profile" class="profile">
+        <!-- Glowing interactive portrait block -->
+        <div class="profile-wrapper">
+            <div class="ring-outer"></div>
+            <div class="ring-inner"></div>
+            <!-- Keep profile.png image name, user can replace this on their repo -->
+            <img src="profile.png" alt="Ardan Profile" class="profile">
+        </div>
 
         <div class="content">
 
@@ -268,16 +475,31 @@ body{
                 Aspiring Developer • MMORPG Enthusiast
             </p>
 
-            <p class="description">
-                I'm currently exploring software development with a strong
-                interest in MMORPG architecture and game systems.
+            <!-- Custom Star Divider -->
+            <div class="aether-divider">
+                <div class="divider-line left"></div>
+                <div class="divider-node">
+                    <div class="divider-dot"></div>
+                    <svg class="divider-star" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4L12 0Z" />
+                    </svg>
+                    <div class="divider-dot"></div>
+                </div>
+                <div class="divider-line right"></div>
+            </div>
 
-                My biggest inspiration is
-                <span class="highlight">Fly For Fun (FlyFF)</span>,
-                a game I've played since elementary school and one that sparked
-                my curiosity about how online worlds are built and maintained.
-            </p>
+            <div class="description">
+                <p>
+                    I'm currently exploring software development with a strong interest in MMORPG architecture and game systems.
+                </p>
+                <p>
+                    My biggest inspiration is 
+                    <span class="highlight">Fly For Fun (FlyFF)</span>, 
+                    a game I've played since elementary school and one that sparked my curiosity about how online worlds are built and maintained.
+                </p>
+            </div>
 
+            <!-- Attunement Matrix Skills -->
             <div class="skills">
                 <span class="skill">Game Development</span>
                 <span class="skill">MMORPG Systems</span>
